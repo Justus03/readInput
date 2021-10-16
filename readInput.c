@@ -11,7 +11,7 @@ int main(int argc,char *argv[])
   type_3 *Var=NULL;
   
   printf("Entrez votre nom:\n");
-  Var=readInput(Chaine,PC_TAILLE,'s',NULL); // réutilisé Var après la première appellation de la fonction. Si vous ne le faite pas votre programme faspillera de la mémoire. 
+  Var=readInput(Chaine,PC_TAILLE,'s',NULL); // réutilisé Var après la première appellation de la fonction. Si vous ne le faite pas votre programme gaspillera de la mémoire. 
   printf("Ah! Vous vous appelez donc %s \n",Var->Chaine);
   printf("Quel est votre age:\n");
   readInput(Chaine,PC_TAILLE,'l',Var);
