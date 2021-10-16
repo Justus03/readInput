@@ -11,7 +11,7 @@ int main(int argc,char *argv[])
   type_3 *Var=NULL;
   
   printf("Entrez votre nom:\n");
-  Var=readInput(Chaine,PC_TAILLE,'s',NULL);
+  Var=readInput(Chaine,PC_TAILLE,'s',NULL); // réutilisé Var après la première appellation de la fonction. Si vous ne le faite pas votre programme faspillera de la mémoire. 
   printf("Ah! Vous vous appelez donc %s \n",Var->Chaine);
   printf("Quel est votre age:\n");
   readInput(Chaine,PC_TAILLE,'l',Var);
@@ -19,7 +19,7 @@ int main(int argc,char *argv[])
   printf("Quel est votre moyenne du premier semestre:\n");
   readInput(Chaine,PC_TAILLE,'d',Var);
   printf("Ah! Vous avez eu %lf de moyenne\n",Var->reel);
-  free(Var);
+  free(Var); // il est très important de libérer la mémoire à la fin du programme.
   
   return 0;
 }
