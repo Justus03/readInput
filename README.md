@@ -89,9 +89,3 @@ typedef union type_3 type_3;
 * The internal buffer cleaning is handled to avoid unwanted input effects.
 
 ---
-
-## License
-
-This work is licensed under the **Creative Commons Attribution 4.0 International License**.
-
----
