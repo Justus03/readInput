@@ -1,92 +1,97 @@
-# readInput Utility (C)
+# readInput Module
 
-A lightweight and flexible input handling utility written in C. It simplifies user input collection from the console by supporting different data types via a unified interface, using a tagged union and dynamic memory management.
+A simple C module for reading and parsing user input into different types using a union structure.
 
-## 📦 Files
+## Description
 
-- `readInput.c`: Core logic for input reading and parsing based on data type.
-- `readInput.h`: Header file containing the union definition and function prototypes.
+This module provides a function `readInput()` to handle typed user input (string, integer, or double) and store it efficiently in a union structure (`type_3`). It helps avoid repetitive boilerplate code when reading different types of input from the user and provides memory safety by allowing dynamic allocation.
 
-## 🚀 Features
+---
 
-- Accepts and processes string (`char*`), long integer (`long`), and double (`double`) inputs.
-- Uses a `union` to store multiple data types in the same memory location.
-- Automatically clears input buffers to prevent unexpected behavior.
-- Dynamically allocates memory for user input handling on first use and reuses it later.
+## Files
 
-## 🛠️ Usage
+- `readInput.c`: Implements the input parsing logic and buffer flushing.
+- `readInput.h`: Declares the `readInput` interface and the `type_3` union structure.
 
-To use this utility in a program:
+---
 
-1. Include `readInput.h`.
-2. Compile both `readInput.c` and your main program file together.
-3. Call `readInput()` with the correct mode and input buffer.
+## Function Usage
 
-### 📄 Example
+### `type_3 *readInput(char *Chaine, int taille, char mode, type_3 *Variable);`
+
+**Parameters:**
+
+1. `Chaine`: Buffer to read the input string into.
+2. `taille`: Size of the buffer.
+3. `mode`: Character flag to indicate the data type:
+   - `'s'` → string
+   - `'l'` → long (integer)
+   - `'d'` → double (floating-point)
+4. `Variable`: A pointer to a `type_3` variable. On first use, pass `NULL`; reuse the returned pointer for subsequent calls to avoid memory leaks.
+
+**Returns:**  
+A pointer to a `type_3` union that contains the parsed value (string, long, or double).
+
+---
+
+## Example Usage
+
+Uncomment the example in `readInput.c` to test the function:
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "readInput.h"
 
-int main() {
-    char buffer[PC_TAILLE] = "";
-    type_3 *userData = NULL;
+int main(int argc, char *argv[]) {
+    char Chaine[PC_TAILLE] = "";
+    type_3 *Var = NULL;
 
     printf("Entrez votre nom:\n");
-    userData = readInput(buffer, PC_TAILLE, 's', NULL);
-    printf("Ah! Vous vous appelez donc %s\n", userData->Chaine);
+    Var = readInput(Chaine, PC_TAILLE, 's', NULL);
+    printf("Ah! Vous vous appelez donc %s\n", Var->Chaine);
 
     printf("Quel est votre age:\n");
-    readInput(buffer, PC_TAILLE, 'l', userData);
-    printf("Ah! Vous êtes âgé de %ld ans\n", userData->entier);
+    readInput(Chaine, PC_TAILLE, 'l', Var);
+    printf("Ah! Vous êtes âgé de %ld ans\n", Var->entier);
 
     printf("Quel est votre moyenne du premier semestre:\n");
-    readInput(buffer, PC_TAILLE, 'd', userData);
-    printf("Ah! Vous avez eu %.2lf de moyenne\n", userData->reel);
+    readInput(Chaine, PC_TAILLE, 'd', Var);
+    printf("Ah! Vous avez eu %lf de moyenne\n", Var->reel);
 
-    free(userData); // Always free memory!
+    free(Var); // Always free allocated memory
     return 0;
 }
 ````
 
-Compile it using:
+---
 
-```sh
-gcc -o main main.c readInput.c
-```
-
-## 📚 Function Reference
+## Structure Definition
 
 ```c
-type_3 *readInput(char *Chaine, int taille, char mode, type_3 *Variable);
+#define PC_TAILLE 100
+
+union type_3 {
+    char Chaine[PC_TAILLE];
+    long entier;
+    double reel;
+};
+typedef union type_3 type_3;
 ```
-
-* `Chaine`: Buffer for temporary input.
-* `taille`: Size of the input buffer.
-* `mode`: One of `'s'` (string), `'l'` (long), `'d'` (double).
-* `Variable`: `NULL` on first call, then reuse the returned pointer.
-
-## 🧠 Design Notes
-
-* Input buffer is always sanitized (`voidBuffer`) to prevent trailing newline issues.
-* Memory is only allocated once, reused on subsequent calls to avoid memory leaks.
-* Modular design makes this easy to integrate into other projects.
-
-## 📝 License
-
-This project is licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
-
-You are free to:
-
-* **Share** — copy and redistribute the material in any medium or format.
-* **Adapt** — remix, transform, and build upon the material for any purpose, even commercially.
-
-Under the following terms:
-
-* **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made.
-
-Read more: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
 
 ---
 
-© 2025 Kevin Simpore
+## ⚠️ Notes
+
+* Always pass `NULL` for the first use of `readInput()`, and reuse the returned pointer for later calls.
+* Don’t forget to call `free()` on the returned pointer when you're done using it.
+* The internal buffer cleaning is handled to avoid unwanted input effects.
+
+---
+
+## License
+
+This work is licensed under the **Creative Commons Attribution 4.0 International License**.
+
+---
