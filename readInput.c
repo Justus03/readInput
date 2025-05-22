@@ -34,7 +34,7 @@ type_3 *readInput(char *Chaine,int taille,char mode,type_3 *Variable)
   char *Caract=strchr(fgets(Chaine,taille,stdin),'\n');
 
   if(Caract==NULL)
-    voidBuffer();
+    voidBuffer(); //avoid buffer-overflow secutity breaches
   else
     *Caract='\0';
   if(Variable)
